@@ -13,9 +13,9 @@ const router = Router();
 
 
 
-router.get('/singlesummary/:state', async (req, res) => {
+router.get('/singlesummary/:state_id', async (req, res) => {
 
-    const state: string = req.params.state;
+    const state: string = req.params.state_id;
 
     console.log('Single state summary')
 
@@ -33,9 +33,9 @@ router.get('/singlesummary/:state', async (req, res) => {
 
 //! singleseries ✅ OK
 
-router.get('/singleseries/:state', async (req, res) => {
+router.get('/singleseries/:state_id', async (req, res) => {
 
-    const state: string = req.params.state;
+    const state: string = req.params.state_id;
 
     try {
         const results = await axios.get(`${BASE_URL}/v2/state/${state}.timeseries.json?apiKey=${actnow_config.apiKey}`)
