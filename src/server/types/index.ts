@@ -20,15 +20,15 @@ export interface Users {
     _created?: string
 }
 
-export interface BooksJoined {
-    book_id?: number;
-    b_catid?: number;
-    cat_name?: string;
-    b_title?: string;
-    b_author?: string;
-    b_price?: number;
-    b__created?: string;
-}
+// export interface BooksJoined {
+//     book_id?: number;
+//     b_catid?: number;
+//     cat_name?: string;
+//     b_title?: string;
+//     b_author?: string;
+//     b_price?: number;
+//     b__created?: string;
+// }
 
 export interface Books {
     id?: number;
@@ -40,10 +40,10 @@ export interface Books {
 
 }
 
-export interface Categories {
-    id?: number;
-    name: string;
-}
+// export interface Categories {
+//     id?: number;
+//     name: string;
+// }
 
 export interface Payload extends UsersTable {
     id?: number;
