@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Counties from './views/Counties';
 import Country from './views/Country';
+import CountyDetail from './views/CountyDetail';
 import Home from './views/Home';
 import StateDetail from './views/StateDetail';
 import States from './views/States';
@@ -22,6 +24,9 @@ const App = (props: AppProps) => {
 				<Route path='/country' element={<Country />}></Route>
 				<Route path='/states' element={<States />}></Route>
 				<Route path='/states/:state_id' element={<StateDetail />}></Route>
+
+				<Route path='/counties' element={<Counties />}></Route>
+				<Route path='/county/:county_id' element={<CountyDetail />}></Route>
 
 
 				{/* <Route path='/verify' element={<Verify />}></Route> */}

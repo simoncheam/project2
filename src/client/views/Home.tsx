@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 const axios = require('axios').default;
 
-import { actnow_config } from "../../server/config";
 
 
 const Home = () => {
@@ -12,9 +11,6 @@ const Home = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [isAuthed, setIsAuthed] = useState(false)
 
-    const api = axios.create({
-        baseURL: `https://api.covidactnow.org/v2/country/US.json?apiKey={${actnow_config.apiKey}} `
-    })
 
     useEffect(() => {
 
@@ -46,15 +42,9 @@ const Home = () => {
                     <div className="card-body row m-5 justify-content-center">
 
                         {/* {isAuthed && */}
-                        <Link to={`/overview`} className="row btn btn-outline-success m-2">Overview </Link>
-
-
-                        {/* {!isAuthed &&
-                            <Link to={`/register`} className="row btn btn-outline-warning m-2">Register </Link>
-                        } */}
-                        {/* {!isAuthed &&
-                            <Link to={`/login`} className="row btn btn-outline-success m-2">Start Here </Link>
-                        } */}
+                        <Link to={`/country`} className="row btn btn-outline-success m-2">Country </Link>
+                        <Link to={`/states`} className="row btn btn-outline-success m-2">State</Link>
+                        <Link to={`/counties`} className="row btn btn-outline-success m-2">County</Link>
 
                         <Link to={`/learn`} className="row btn btn-outline-warning m-2">Learn More </Link>
 

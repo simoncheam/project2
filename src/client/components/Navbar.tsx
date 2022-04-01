@@ -9,37 +9,37 @@ const Navbar = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [isAuthed, setIsAuthed] = useState(false)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (loc.pathname === '/login' ||
-            loc.pathname === '/register' ||
-            loc.pathname === '/confirm' ||
-            loc.pathname === '/' ||
-            loc.pathname === '/verify' ||
-            loc.pathname === '/learn'
+    //     if (loc.pathname === '/login' ||
+    //         loc.pathname === '/register' ||
+    //         loc.pathname === '/confirm' ||
+    //         loc.pathname === '/' ||
+    //         loc.pathname === '/verify' ||
+    //         loc.pathname === '/learn'
 
-        ) {
-            return;
+    //     ) {
+    //         return;
 
-        } else {
-
-
-            APIService('/auth/validate')
-                .then(res => {
-
-                    const tokenStatus = res.message === 'valid';
-                    setIsAuthed(tokenStatus)
-
-                })
-                .catch(e => {
-                    console.log(e)
+    //     } else {
 
 
-                    nav(`/`)
-                })
+    //         APIService('/auth/validate')
+    //             .then(res => {
 
-        }
-    }, [loc.pathname])
+    //                 const tokenStatus = res.message === 'valid';
+    //                 setIsAuthed(tokenStatus)
+
+    //             })
+    //             .catch(e => {
+    //                 console.log(e)
+
+
+    //                 nav(`/`)
+    //             })
+
+    //     }
+    // }, [loc.pathname])
 
 
 
@@ -48,6 +48,9 @@ const Navbar = () => {
     return <div>
 
         <Link type="button" className="m-2 btn btn-outline-primary" to="/"> Home </Link>
+
+
+
         {
             isAuthed &&
             <Link type="button" className="m-2 btn btn-outline-primary" to="/contact"> Contact Us </Link>
@@ -58,10 +61,10 @@ const Navbar = () => {
             <Link type="button" className="m-2 btn btn-outline-primary" to="/register"> Register </Link>
         } */}
 
-        {
+        {/* {
             !isAuthed &&
             <Link type="button" className="m-2 btn btn-outline-primary" to="/login"> Start Here </Link>
-        }
+        } */}
 
 
 
