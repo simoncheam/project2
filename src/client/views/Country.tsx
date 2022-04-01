@@ -7,6 +7,7 @@ import { CountrySummary, Actuals } from '../client_types/country'
 const axios = require('axios').default;
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Form from 'react-bootstrap/Form'
 
 
 
@@ -32,7 +33,7 @@ const Country = () => {
 
             }
             )
-            .catch(e => alert(e))
+            .catch((e: any) => alert(e))
 
 
 
@@ -45,9 +46,18 @@ const Country = () => {
     return (
         <Container>
             <Row className='my-3'>
-                <h1>Stats at a glance: {countrySummaryData.country}</h1>
-                {/* <Col sm={8}>Overall % death per +case</Col>
-                <Col sm={4}>Other stat</Col> */}
+                <p className='display-1 justify-content-center'>COVID-19 Tracker</p>
+                <h1>Stats at a glance </h1>
+                <Col sm={8}>Last Update:  {countrySummaryData.lastUpdatedDate}</Col>
+                <Col sm={4}>
+                    <Form.Select aria-label="Default select example">
+                        <option>{countrySummaryData.country} Data</option>
+                        <option value="1">State Data</option>
+                        <option value="2">County Data</option>
+                    </Form.Select>
+
+
+                </Col>
             </Row>
 
             <hr />
@@ -76,7 +86,7 @@ const Country = () => {
                                 <ListGroup.Item>Vaccinations completed: {countryActualData.vaccinationsCompleted.toLocaleString()}</ListGroup.Item>
                                 <ListGroup.Item>Cases: {countryActualData.cases.toLocaleString()}</ListGroup.Item>
                                 <ListGroup.Item>Positive Tests: {countryActualData.positiveTests.toLocaleString()}</ListGroup.Item>
-                                <ListGroup.Item>Deaths: {countryActualData.deaths.toLocaleString()}</ListGroup.Item>
+                                <ListGroup.Item>Total Deaths: {countryActualData.deaths.toLocaleString()}</ListGroup.Item>
                             </ListGroup>
                         </Card>
                     </Row>
@@ -90,8 +100,8 @@ const Country = () => {
                             <Card.Header>Analysis</Card.Header>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>Deaths/positive case [%]: {(countryActualData.deaths * 100 / countryActualData.positiveTests).toFixed(2)} </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                                <ListGroup.Item>Deaths/population [%]:  {(countryActualData.deaths * 100 / countrySummaryData.population).toFixed(2)}</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
                             </ListGroup>
                         </Card>
                     </Row>
@@ -103,6 +113,52 @@ const Country = () => {
 
             <hr />
             <Row className='my-3'>
+                <h1>Daily Stats</h1>
+                <Col sm={12}>Last Update:  {countrySummaryData.lastUpdatedDate}</Col>
+
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>New Cases</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> {countryActualData.newCases.toLocaleString()} </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
+
+                </Col>
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>New Deaths</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> {countryActualData.newDeaths.toLocaleString()} </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
+
+                </Col>
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>Stuff</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> stuff </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
+
+                </Col>
+
+            </Row>
+            <hr />
+            <Row className='my-3'>
                 <h1>Chart</h1>
 
             </Row>
@@ -110,28 +166,46 @@ const Country = () => {
             <hr />
             <Row className='my-3'>
                 <h1>Comparison data</h1>
-                <Col sm> overall (% death per confirmed test)
+                <Col sm={12}>Leading Causes of Death in US: (date range)</Col>
 
-                    <Row> % deaths - w/ vax</Row>
-                    <Row> % deaths - no vax</Row>
-
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>Vascular (heart disease or stroke)</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>Total Deaths </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
 
                 </Col>
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>Cancer</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> Numbers </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
 
-                <Col sm> % Comorbidities
-                    <hr />
-
-                    <Row> % died with comorbitiy</Row>
-                    <Row> % died with no comorbitiy</Row>
                 </Col>
+                <Col sm>
+                    <Row className='justify-content-center my-3'>
+                        <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card.Header>Alzheimers</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> stuff </ListGroup.Item>
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                            </ListGroup>
+                        </Card>
+                    </Row>
 
-
-                <Col sm>death by age (histogram)
-                    <Row> % age group 0</Row>
-                    <Row> % age group 1</Row>
-                    <Row> % age group 2</Row>
-                    <Row> % age group 3</Row>
-                    <Row> histogram</Row>
                 </Col>
 
 
