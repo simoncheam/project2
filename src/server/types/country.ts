@@ -19,20 +19,20 @@ export interface CountrySummary {
     lastUpdatedDate: string;
     url?: null;
 }
-// export interface Metrics {
-//     testPositivityRatio: number;
-//     testPositivityRatioDetails: TestPositivityRatioDetails;
-//     caseDensity: number;
-//     weeklyNewCasesPer100k: number;
-//     contactTracerCapacityRatio?: null;
-//     infectionRate: number;
-//     infectionRateCI90: number;
-//     icuCapacityRatio: number;
-//     bedsWithCovidPatientsRatio: number;
-//     vaccinationsInitiatedRatio: number;
-//     vaccinationsCompletedRatio: number;
-//     vaccinationsAdditionalDoseRatio: number;
-// }
+export interface Metrics {
+    testPositivityRatio: number;
+    testPositivityRatioDetails: TestPositivityRatioDetails;
+    caseDensity: number;
+    weeklyNewCasesPer100k: number;
+    contactTracerCapacityRatio?: null;
+    infectionRate: number;
+    infectionRateCI90: number;
+    icuCapacityRatio: number;
+    bedsWithCovidPatientsRatio: number;
+    vaccinationsInitiatedRatio: number;
+    vaccinationsCompletedRatio: number;
+    vaccinationsAdditionalDoseRatio: number;
+}
 
 export interface TestPositivityRatioDetails {
     source: string;
@@ -134,4 +134,156 @@ export interface AnomaliesEntity {
     date: string;
     type: string;
     original_observation: number;
+}
+
+export interface USTimeSeries {
+    fips: string;
+    country: string;
+    state?: null;
+    county?: null;
+    hsa?: null;
+    hsaName?: null;
+    level: string;
+    lat?: null;
+    locationId: string;
+    long?: null;
+    population: number;
+    hsaPopulation?: null;
+    metrics: Metrics;
+    riskLevels: RiskLevels;
+    cdcTransmissionLevel: number;
+    actuals: Actuals;
+    annotations: Annotations;
+    lastUpdatedDate: string;
+    url?: null;
+    metricsTimeseries?: (MetricsTimeseriesEntity)[] | null;
+    actualsTimeseries?: (ActualsTimeseriesEntity)[] | null;
+    riskLevelsTimeseries?: (RiskLevelsTimeseriesEntity)[] | null;
+    cdcTransmissionLevelTimeseries?: (CdcTransmissionLevelTimeseriesEntity)[] | null;
+}
+export interface Metrics {
+    testPositivityRatio: number;
+    testPositivityRatioDetails: TestPositivityRatioDetails;
+    caseDensity: number;
+    weeklyNewCasesPer100k: number;
+    contactTracerCapacityRatio?: null;
+    infectionRate: number;
+    infectionRateCI90: number;
+    icuCapacityRatio: number;
+    bedsWithCovidPatientsRatio: number;
+    weeklyCovidAdmissionsPer100k: number;
+    vaccinationsInitiatedRatio: number;
+    vaccinationsCompletedRatio: number;
+    vaccinationsAdditionalDoseRatio: number;
+}
+export interface TestPositivityRatioDetails {
+    source: string;
+}
+export interface RiskLevels {
+    overall: number;
+    testPositivityRatio: number;
+    caseDensity: number;
+    contactTracerCapacityRatio: number;
+    infectionRate: number;
+    icuCapacityRatio: number;
+}
+export interface Actuals {
+    cases: number;
+    deaths: number;
+    positiveTests: number;
+    negativeTests: number;
+    contactTracers: number;
+    hospitalBeds: HospitalBeds;
+    hsaHospitalBeds: HsaHospitalBedsOrHospitalBeds;
+    icuBeds: IcuBeds;
+    hsaIcuBeds: HsaIcuBedsOrIcuBeds;
+    newCases: number;
+    newDeaths: number;
+    vaccinesDistributed: number;
+    vaccinationsInitiated: number;
+    vaccinationsCompleted: number;
+    vaccinationsAdditionalDose: number;
+    vaccinesAdministered: number;
+    vaccinesAdministeredDemographics?: null;
+    vaccinationsInitiatedDemographics?: null;
+}
+export interface HospitalBeds {
+    capacity: number;
+    currentUsageTotal: number;
+    currentUsageCovid: number;
+    // weeklyCovidAdmissions?: number;
+}
+export interface HsaHospitalBedsOrHospitalBeds {
+    capacity?: null;
+    currentUsageTotal?: null;
+    currentUsageCovid?: null;
+    weeklyCovidAdmissions?: null;
+}
+export interface IcuBeds {
+    capacity: number;
+    currentUsageTotal: number;
+    currentUsageCovid: number;
+}
+export interface HsaIcuBedsOrIcuBeds {
+    capacity?: null;
+    currentUsageTotal?: null;
+    currentUsageCovid?: null;
+}
+export interface Annotations {
+}
+export interface MetricsTimeseriesEntity {
+    testPositivityRatio?: number | null;
+    caseDensity?: number | null;
+    weeklyNewCasesPer100k?: number | null;
+    contactTracerCapacityRatio?: number | null;
+    infectionRate?: number | null;
+    infectionRateCI90?: number | null;
+    icuCapacityRatio?: number | null;
+    bedsWithCovidPatientsRatio?: number | null;
+    weeklyCovidAdmissionsPer100k?: number | null;
+    date: string;
+    vaccinationsInitiatedRatio?: number | null;
+    vaccinationsCompletedRatio?: number | null;
+    vaccinationsAdditionalDoseRatio?: number | null;
+}
+export interface ActualsTimeseriesEntity {
+    cases: number;
+    deaths: number;
+    positiveTests?: number | null;
+    negativeTests?: number | null;
+    contactTracers?: number | null;
+    hospitalBeds: HospitalBeds1;
+    hsaHospitalBeds: HsaHospitalBedsOrHospitalBeds;
+    icuBeds: IcuBeds1;
+    hsaIcuBeds: HsaIcuBedsOrIcuBeds;
+    newCases?: number | null;
+    newDeaths?: number | null;
+    vaccinesAdministeredDemographics?: null;
+    vaccinationsInitiatedDemographics?: null;
+    date: string;
+    vaccinesDistributed?: number | null;
+    vaccinationsInitiated?: number | null;
+    vaccinationsCompleted?: number | null;
+    vaccinationsAdditionalDose?: number | null;
+    vaccinesAdministered?: number | null;
+}
+export interface HospitalBeds1 {
+    capacity?: number | null;
+    currentUsageTotal?: number | null;
+    currentUsageCovid?: number | null;
+    weeklyCovidAdmissions?: number | null;
+}
+export interface IcuBeds1 {
+    capacity?: number | null;
+    currentUsageTotal?: number | null;
+    currentUsageCovid?: number | null;
+}
+export interface RiskLevelsTimeseriesEntity {
+    overall: number;
+    caseDensity: number;
+    date: string;
+}
+export interface CdcTransmissionLevelTimeseriesEntity {
+    date: string;
+    cdcTransmissionLevel: number;
 }

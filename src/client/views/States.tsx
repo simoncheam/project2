@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useLocation, useNavigate } from 'react-router'
-import { CountrySummary, Actuals } from '../client_types'
+import { Navigate, useLocation, useNavigate } from 'react-router'
+import { AllStatesSummary, Actuals } from '../client_types/allstates'
 const axios = require('axios').default;
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Form from 'react-bootstrap/Form'
 import { StatsModuleIssuer } from 'webpack'
+import { Link } from 'react-router-dom'
 
 
 
 const States = () => {
 
-    const [statesSummaryData, setStatesSummaryData] = useState<>();
-    const [statesActualData, setStatesActualData] = useState<Actuals>();
+    const [statesSummaryData, setStatesSummaryData] = useState<AllStatesSummary[]>();
+    // const [statesActualData, setStatesActualData] = useState<Actuals>();
 
 
     const loc = useLocation();
@@ -25,34 +26,43 @@ const States = () => {
 
     useEffect(() => {
 
-        //API stuff
-        axios.get('/api/country/summary')
+        // get state summary
+        axios.get('/api/states/summary')
             .then(res => {
                 setStatesSummaryData(res.data)
-                setStatesActualData(res.data.actuals)
                 setIsLoaded(true)
-
-            }
-            )
+            })
             .catch((e: any) => alert(e))
-
-
-
-
-
     }, [isLoaded])
 
-    if (!isLoaded) return <> Loading </>
+    // useEffect(() => {
+
+    //     // get state series
+    //     axios.get('/api/states/series')
+    //         .then(res => {
+    //             setStatesSeriesData(res.data)
+    //             setIsLoaded(true)
+    //         })
+    //         .catch((e: any) => alert(e))
+    // }, [isLoaded])
+
+
+
+
+
+    if (!isLoaded || !statesSummaryData.length) return <> Loading </>
 
     return (
         <Container>
+
+            {/* //! Add map here, map thru all states */}
             <Row className='my-3'>
                 <p className='display-1 justify-content-center'>COVID-19 Tracker</p>
                 <h1>Stats at a glance </h1>
-                <Col sm={8}>Last Update:  {statesSummaryData.lastUpdatedDate}</Col>
+                <Col sm={8}>Last Update:  </Col>
                 <Col sm={4}>
                     <Form.Select aria-label="Default select example">
-                        <option>{statesSummaryData.country} Data</option>
+                        <option> Data</option>
                         <option value="1">State Data</option>
                         <option value="2">County Data</option>
                     </Form.Select>
@@ -63,154 +73,94 @@ const States = () => {
 
             <hr />
 
-            <Row className='my-3 '>
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow background-primary' style={{ width: '18rem' }}>
-                            <Card.Header>Demographics:  </Card.Header>
-                            {/* <Card.Title>Card Title</Card.Title> */}
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Population: {statesSummaryData.population.toLocaleString()}</ListGroup.Item>
-                                <ListGroup.Item>placeholder</ListGroup.Item>
-                                <ListGroup.Item>placeholder</ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Row>
+            <div>
 
-                </Col>
-
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Actuals</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Vaccinations completed: {statesActualData.vaccinationsCompleted.toLocaleString()}</ListGroup.Item>
-                                <ListGroup.Item>Cases: {statesActualData.cases.toLocaleString()}</ListGroup.Item>
-                                <ListGroup.Item>Positive Tests: {statesActualData.positiveTests.toLocaleString()}</ListGroup.Item>
-                                <ListGroup.Item>Total Deaths: {statesActualData.deaths.toLocaleString()}</ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Row>
-
-                </Col>
+                {statesSummaryData.map(st => (
+                    <div key={`state-${st.state}`}>
 
 
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Analysis</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Deaths/positive case [%]: {(statesActualData.deaths * 100 / statesActualData.positiveTests).toFixed(2)} </ListGroup.Item>
-                                <ListGroup.Item>Deaths/population [%]:  {(statesActualData.deaths * 100 / statesSummaryData.population).toFixed(2)}</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Row>
-
-                </Col>
+                        <Row className='my-3 '>
 
 
-            </Row>
 
-            <hr />
-            <Row className='my-3'>
-                <h1>Daily Stats</h1>
-                <Col sm={12}>Last Update:  {statesSummaryData.lastUpdatedDate}</Col>
 
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>New Cases</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item> {statesActualData.newCases.toLocaleString()} </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
+                            <Col sm>
+                                <Row className='justify-content-center my-3'>
+                                    <Card className='shadow background-primary p-3' style={{ width: '18rem' }}>
+                                        <Card.Title>{st.state}:  </Card.Title>
+                                        {/* <Card.Title>Card Title</Card.Title> */}
+                                        <ListGroup variant="flush">
+                                            <ListGroup.Item>Population: {st.population.toLocaleString()}</ListGroup.Item>
+                                            <ListGroup.Item>source:
+                                                <a href={st.url}> {st.url}</a>
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                    </Card>
+                                </Row>
 
-                </Col>
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>New Deaths</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item> {statesActualData.newDeaths.toLocaleString()} </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
+                            </Col>
 
-                </Col>
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Stuff</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item> stuff </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
+                            <Col sm>
+                                <Row className='justify-content-center my-3'>
+                                    <Card className='shadow p-3' style={{ width: '20rem' }}>
+                                        <Card.Title>Actuals</Card.Title>
+                                        <ListGroup variant="flush">
+                                            {/* // ? dealing with tolocalestring error? */}
+                                            <ListGroup.Item>Vaccinations completed: {st.actuals.vaccinationsCompleted} </ListGroup.Item>
+                                            <ListGroup.Item>Cases: {st.actuals.cases.toLocaleString()} </ListGroup.Item>
 
-                </Col>
+                                            {st.actuals.positiveTests ?
+                                                <ListGroup.Item>Positive Tests: {st.actuals.positiveTests.toLocaleString()} </ListGroup.Item>
+                                                :
+                                                <ListGroup.Item>Positive Tests: N/A </ListGroup.Item>
+                                            }
 
-            </Row>
-            <hr />
+
+                                            <ListGroup.Item>Total Deaths: {st.actuals.deaths.toLocaleString()}</ListGroup.Item>
+                                        </ListGroup>
+                                    </Card>
+                                </Row>
+
+                            </Col>
+
+
+                            <Col sm>
+                                <Row className='justify-content-center my-3'>
+                                    <Card className='shadow p-3' style={{ width: '20rem' }}>
+                                        <Card.Title>Analysis</Card.Title>
+                                        <ListGroup variant="flush">
+
+                                            {st.actuals.positiveTests ?
+                                                <ListGroup.Item>Deaths/positive case [%]:  {(st.actuals.deaths * 100 / st.actuals.positiveTests).toFixed(2)} </ListGroup.Item>
+                                                :
+                                                <ListGroup.Item>Deaths/positive case [%]:  Data not available </ListGroup.Item>
+                                            }
+
+                                            <ListGroup.Item>Deaths/population [%]: {(st.actuals.deaths * 100 / st.population).toFixed(2)} </ListGroup.Item>
+                                            {/* <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
+                                        </ListGroup>
+                                    </Card>
+                                </Row>
+
+                            </Col>
+
+                        </Row>
+                    </div>
+                ))}
+            </div>
+
+
+            {/* // ! end of map */}
+
+
+            < hr />
             <Row className='my-3'>
                 <h1>Chart</h1>
 
             </Row>
 
             <hr />
-            <Row className='my-3'>
-                <h1>Comparison data</h1>
-                <Col sm={12}>Leading Causes of Death in US: (date range)</Col>
 
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Vascular (heart disease or stroke)</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Total Deaths </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
-
-                </Col>
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Cancer</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item> Numbers </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
-
-                </Col>
-                <Col sm>
-                    <Row className='justify-content-center my-3'>
-                        <Card className='shadow' style={{ width: '18rem' }}>
-                            <Card.Header>Alzheimers</Card.Header>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item> stuff </ListGroup.Item>
-                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                            </ListGroup>
-                        </Card>
-                    </Row>
-
-                </Col>
-
-
-            </Row>
 
 
         </Container >

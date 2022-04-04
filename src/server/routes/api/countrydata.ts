@@ -3,15 +3,6 @@ import { actnow_config, BASE_URL } from "../../config";
 const axios = require('axios').default;
 
 
-const SINGLE_COUNTY_SUMMARY_URL = `${BASE_URL}/v2/county/{fips}.json?apiKey=${actnow_config.apiKey}`
-
-const SINGLE_COUNTY_TIMESERIES_URL = `${BASE_URL}/v2/county/{fips}.timeseries.json?apiKey=${actnow_config.apiKey}`
-
-const ALL_COUNTY_SUMMARY_URL = `${BASE_URL}/v2/counties.json?apiKey=${actnow_config.apiKey}`
-
-const ALL_COUNTY_TIMESERIES_URL = `${BASE_URL}/v2/counties.timeseries.json?apiKey=${actnow_config.apiKey}`
-const COUNTY_SUMMARY_IN_STATE_URL = `${BASE_URL}/v2/county/{state}.json?apiKey=${actnow_config.apiKey}`
-const COUNTY_TIMESERIES_IN_STATE_URL = `${BASE_URL}/v2/county/{state}.timeseries.json?apiKey=${actnow_config.apiKey}`
 
 
 // ! route structure
@@ -68,4 +59,4 @@ router.get('/timeseries', async (req, res) => {
 
 
 
-export default router; 
+export default router;

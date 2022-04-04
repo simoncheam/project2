@@ -5,8 +5,6 @@ const axios = require('axios').default;
 const router = Router();
 
 
-
-
 //state (4)
 
 //! singlesummary ✅ OK
@@ -82,4 +80,4 @@ router.get('/series', async (req, res) => {
 
 
 
-export default router; 
+export default router;

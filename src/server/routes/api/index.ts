@@ -8,7 +8,7 @@ const router = Router();
 
 router.use('/country', countryRouter);
 router.use('/county', countyRouter);
-router.use('/state', stateRouter);
+router.use('/states', stateRouter);
 
 
 
