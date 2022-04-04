@@ -1,20 +1,20 @@
-import React from 'react';
-import { AllStatesSummary } from '../client_types/allstates';
+// import React from 'react';
+// import { AllStatesSummary } from '../client_types/allstates';
 
-const Table = ({ states} ) => {
-    return (
-        <div className='table'>Table
+// const Table = ({ states} ) => {
+//     return (
+//         <div className='table'>Table
 
-            {states.map({ state, cases }=> (
-            <tr>
+//             {states.map({ state }=> (
+//             <tr>
 
-                <td>{state}</td>
-                <td></td>
-            </tr>
-    ))}
-        </div>
-    )
+//                 <td>{state}</td>
+//                 <td></td>
+//             </tr>
+//     ))}
+//         </div>
+//     )
 
-}
+// }
 
-export default Table
+// export default Table
