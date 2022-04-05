@@ -12,23 +12,16 @@ const axios = require('axios').default;
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
-import LineGraph from '../components/LineGraph';
 // import Table from '../components/Table';
 import { AllStatesSummary } from '../client_types/allstates';
 
-const Country = () => {
-  const [countrySummaryData, setCountrySummaryData] =
-    useState<CountrySummary>();
-  const [countryActualData, setCountryActualData] = useState<Actuals>();
+interface CountryProps {
+  countryProps: CountrySummary;
+  //? Q: if we want to pass in another prop (ie stateProps) into the Country view element, could we include it within this same CountryProps Interface?
+  // ie. stateProps: StatesSummary
+}
 
-  const [countrySeriesData, setCountrySeriesData] = useState<CountrySeries>();
-
-  const [statesSummaryData, setStatesSummaryData] =
-    useState<AllStatesSummary[]>();
-  const [states, setStates] = useState<{ stateID: string; cases: string }[]>(
-    []
-  );
-
+const Country = (props: CountryProps) => {
   // ! want tableData for sorted States by cases
   const [tableData, setTableData] = useState([]);
 
@@ -37,174 +30,145 @@ const Country = () => {
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // ! Fetch country summary data
-  useEffect(() => {
-    axios
-      .get('/api/country/summary')
-      .then((res) => {
-        setCountrySummaryData(res.data);
-        setCountryActualData(res.data.actuals);
-        setIsLoaded(true);
-      })
-      .catch((e: any) => alert(e));
-  }, [isLoaded]);
-
   // ! Fetch country timeseries
-  useEffect(() => {
-    //API stuff
-    const fetchData = async () => {
-      await axios
-        .get('/api/country/timeseries')
-        .then((res) => {
-          return res;
-        })
-        .then((data: any) => {
-          // let chartData = buildChartData(data.data, casesType);
-          // setData(chartData);
-          setCountrySeriesData(data.data.actualsTimeseries);
-          //console.log(data.data.actualsTimeseries);
-          // buildChart(chartData);
-        })
-        .catch((e: any) => alert(e));
-    };
+  //   useEffect(() => {
+  //     //API stuff
+  //     const fetchData = async () => {
+  //       await axios
+  //         .get('/api/country/timeseries')
+  //         .then((res) => {
+  //           return res;
+  //         })
+  //         .then((data: any) => {
+  //           // let chartData = buildChartData(data.data, casesType);
+  //           // setData(chartData);
+  //           setCountrySeriesData(data.data.actualsTimeseries);
+  //           //console.log(data.data.actualsTimeseries);
+  //           // buildChart(chartData);
+  //         })
+  //         .catch((e: any) => alert(e));
+  //     };
 
-    fetchData();
-  }, []);
+  //     fetchData();
+  //   }, []);
 
   // ! Fetch states summary date
-  useEffect(() => {
-    const getStatesData = async () => {
-      await axios
-        .get('/api/states/summary')
-        .then(({ data }) => {
-          const states = data.map((state) => ({
-            stateID: state.state,
-            cases: state.actuals.cases,
-          }));
-          console.log(states);
-          //let sortedData = sortData(data)
+  //   useEffect(() => {
+  //     const getStatesData = async () => {
+  //       await axios
+  //         .get('/api/states/summary')
+  //         .then(({ data }) => {
+  //           const states = data.map((state) => ({
+  //             stateID: state.state,
+  //             cases: state.actuals.cases,
+  //           }));
+  //           console.log(states);
+  //           //let sortedData = sortData(data)
 
-          setStatesSummaryData(data);
-          setStates(states);
-          console.log(states);
-          setIsLoaded(true);
-          //  console.log(data.data);
-          // setTableData(res.);
-        })
+  //           setStatesSummaryData(data);
+  //           setStates(states);
+  //           console.log(states);
+  //           setIsLoaded(true);
+  //           //  console.log(data.data);
+  //           // setTableData(res.);
+  //         })
 
-        .catch((e: any) => alert(e));
-    };
-    getStatesData();
+  //         .catch((e: any) => alert(e));
+  //     };
+  //     getStatesData();
 
-    // get state summary
-  }, [isLoaded]);
+  //     // get state summary
+  //   }, [isLoaded]);
 
-  if (!isLoaded) return <> Loading </>;
+  if (!props.countryProps) return <> Loading </>;
 
   return (
     <Container>
       <Row className="my-3">
         <p className="display-1 justify-content-center">COVID-19 Tracker</p>
-        <h1>Summary Stats: {countrySummaryData.country} </h1>
-        <Col sm={8}>
-          Last Update: {countrySummaryData.lastUpdatedDate}
-          <h1>This is a table - Country</h1>
+        <h1>Summary: {props.countryProps.country} </h1>
+        <p className="text-muted">
+          Last Update: {props.countryProps.lastUpdatedDate}
+        </p>
+        <Col sm={6}>
+          <h2>Country Stats Overall</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Critical Metrics</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Population</th>
+                <td>{props.countryProps.population.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <th scope="row">Vaccinations Completed</th>
+                <td>
+                  {props.countryProps.actuals.vaccinationsCompleted.toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"># Cases</th>
+                <td>{props.countryProps.actuals.cases.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <th scope="row"># Positive Tests</th>
+                <td>
+                  {props.countryProps.actuals.positiveTests.toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"># Deaths</th>
+                <td>{props.countryProps.actuals.deaths.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <th scope="row">Source</th>
+                <td>{props.countryProps.url}</td>
+              </tr>
+            </tbody>
+          </table>
         </Col>
 
-        <Col sm={4}>
-          <Form.Select aria-label="Default select example">
-            State Selection menu
-            <option> States</option>
-            {states.map((state) => (
-              <option key={`state-${state.stateID}`} value="1">
-                {state.stateID}{' '}
-              </option>
-            ))}
-            {/* <option value="2">County Data</option> */}
-          </Form.Select>
-
-          <h1>This is a table - State</h1>
-        </Col>
-      </Row>
-      {/*  */}
-      {/* <Table states={tableData} /> */}
-
-      <hr />
-
-      <Row className="my-3 ">
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card
-              className="shadow background-primary"
-              style={{ width: '18rem' }}
-            >
-              <Card.Title>Demographics </Card.Title>
-
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  Population: {countrySummaryData.population.toLocaleString()}
-                </ListGroup.Item>
-                {/* <ListGroup.Item>placeholder</ListGroup.Item>
-                <ListGroup.Item>placeholder</ListGroup.Item> */}
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Title>Actuals</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  Vaccinations completed:{' '}
-                  {countryActualData.vaccinationsCompleted.toLocaleString()}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Cases: {countryActualData.cases.toLocaleString()}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Positive Tests:{' '}
-                  {countryActualData.positiveTests.toLocaleString()}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Total Deaths: {countryActualData.deaths.toLocaleString()}
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Title>Analysis</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  Deaths/positive case [%]:{' '}
+        <Col sm={6}>
+          <h2>Analysis</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Critical Metrics</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Deaths/positive case [%]</th>
+                <td>
                   {(
-                    (countryActualData.deaths * 100) /
-                    countryActualData.positiveTests
+                    (props.countryProps.actuals.deaths * 100) /
+                    props.countryProps.actuals.positiveTests
                   ).toFixed(2)}{' '}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Deaths/population [%]:{' '}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Deaths/population [%]</th>
+                <td>
                   {(
-                    (countryActualData.deaths * 100) /
-                    countrySummaryData.population
-                  ).toFixed(2)}
-                </ListGroup.Item>
-                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Row>
+                    (props.countryProps.actuals.deaths * 100) /
+                    props.countryProps.population
+                  ).toFixed(3)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </Col>
       </Row>
+
+      {/* //! --- Daily Update section */}
 
       <hr />
       <Row className="my-3">
-        <h1>Daily Stats: {countrySummaryData.country}</h1>
-        <Col sm={12}>Last Update: {countrySummaryData.lastUpdatedDate}</Col>
+        <h1>Daily Update: {props.countryProps.country}</h1>
+        <Col sm={12}>Last Update: {props.countryProps.lastUpdatedDate}</Col>
 
         <Col sm>
           <Row className="justify-content-center my-3">
@@ -213,7 +177,7 @@ const Country = () => {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   {' '}
-                  {countryActualData.newCases.toLocaleString()}{' '}
+                  {props.countryProps.actuals.newCases.toLocaleString()}{' '}
                 </ListGroup.Item>
                 {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
                                 <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
@@ -228,22 +192,8 @@ const Country = () => {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   {' '}
-                  {countryActualData.newDeaths.toLocaleString()}{' '}
+                  {props.countryProps.actuals.newDeaths.toLocaleString()}{' '}
                 </ListGroup.Item>
-                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Header>Stuff</Card.Header>
-              <ListGroup variant="flush">
-                <ListGroup.Item> stuff </ListGroup.Item>
-                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
               </ListGroup>
             </Card>
           </Row>
@@ -251,7 +201,7 @@ const Country = () => {
       </Row>
       <hr />
       <Row className="my-3">
-        <h1>This is a Graph</h1>
+        <h1>Insert Graph - time series(cases +deaths+ vaccinations vs. time</h1>
         {/* < LineGraph /> */}
       </Row>
 
@@ -268,7 +218,7 @@ const Country = () => {
                 <ListGroup.Item>Total Deaths (2020): 857,226 </ListGroup.Item>
                 <ListGroup.Item>
                   Deaths/population[%]{' '}
-                  {((857226 * 100) / countrySummaryData.population).toFixed(2)}%
+                  {((857226 * 100) / props.countryProps.population).toFixed(2)}%
                 </ListGroup.Item>
               </ListGroup>
             </Card>
@@ -282,7 +232,7 @@ const Country = () => {
                 <ListGroup.Item>Total Deaths (2020): 602,350 </ListGroup.Item>
                 <ListGroup.Item>
                   Deaths/population[%]:{' '}
-                  {((602350 * 100) / countrySummaryData.population).toFixed(2)}%
+                  {((602350 * 100) / props.countryProps.population).toFixed(2)}%
                 </ListGroup.Item>
                 <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
               </ListGroup>
@@ -297,11 +247,8 @@ const Country = () => {
                 <ListGroup.Item>Total Deaths (2020): 134,242 </ListGroup.Item>
                 <ListGroup.Item>
                   Deaths/population[%]:{' '}
-                  {((134242 * 100) / countrySummaryData.population).toFixed(2)}%
+                  {((134242 * 100) / props.countryProps.population).toFixed(2)}%
                 </ListGroup.Item>
-
-                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
               </ListGroup>
             </Card>
           </Row>
