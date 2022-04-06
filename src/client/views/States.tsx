@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 
 interface StatesProps {
+  // name of props passed in
   stateProps: AllStatesSummary[];
 }
 
@@ -40,7 +41,6 @@ const States = (props: StatesProps) => {
         <p className="display-1 justify-content-center">COVID-19 Tracker</p>
         <Col sm={12}>
           <p className="text-muted">
-            {/* //? Q: what is a better way to handle this? */}
             Last Update: {props.stateProps[0].lastUpdatedDate}
           </p>
           <Accordion defaultActiveKey={['0']} alwaysOpen>
