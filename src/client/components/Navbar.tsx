@@ -42,22 +42,18 @@ const Navbar = () => {
   return (
     <div>
       <Link type="button" className="m-2 btn btn-outline-primary" to="/">
-        {' '}
-        Home{' '}
+        Home
+      </Link>
+      <Link type="button" className="m-2 btn btn-outline-primary" to="/chart">
+        Chart
       </Link>
       <Link type="button" className="m-2 btn btn-outline-primary" to="/states">
-        {' '}
-        States{' '}
+        States
       </Link>
 
       {isAuthed && (
-        <Link
-          type="button"
-          className="m-2 btn btn-outline-primary"
-          to="/contact"
-        >
-          {' '}
-          Contact Us{' '}
+        <Link type="button" className="m-2 btn btn-outline-primary" to="/contact">
+          Contact Us
         </Link>
       )}
     </div>

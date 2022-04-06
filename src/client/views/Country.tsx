@@ -3,11 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useLocation, useNavigate } from 'react-router';
-import {
-  CountrySummary,
-  Actuals,
-  CountrySeries,
-} from '../client_types/country';
+import { CountrySummary, Actuals, CountrySeries } from '../client_types/country';
 const axios = require('axios').default;
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -15,9 +11,11 @@ import Form from 'react-bootstrap/Form';
 // import Table from '../components/Table';
 import { AllStatesSummary } from '../client_types/allstates';
 import Accordion from 'react-bootstrap/Accordion';
+import CountryChart from './CountryChart';
 
 interface CountryProps {
   countryProps: CountrySummary;
+  timeSeries: CountrySeries;
   //? Q: if we want to pass in another prop (ie stateProps) into the Country view element, could we include it within this same CountryProps Interface?
   // ie. stateProps: StatesSummary
 }
@@ -88,9 +86,7 @@ const Country = (props: CountryProps) => {
       <Row className="my-3">
         <p className="display-1 justify-content-center">COVID-19 Tracker</p>
         <h1>Summary: {props.countryProps.country} </h1>
-        <p className="text-muted">
-          Last Update: {props.countryProps.lastUpdatedDate}
-        </p>
+        <p className="text-muted">Last Update: {props.countryProps.lastUpdatedDate}</p>
         <Col sm={6}>
           <h2>Country Stats </h2>
           <table className="table">
@@ -106,9 +102,7 @@ const Country = (props: CountryProps) => {
               </tr>
               <tr>
                 <th scope="row">Vaccinations Completed</th>
-                <td>
-                  {props.countryProps.actuals.vaccinationsCompleted.toLocaleString()}
-                </td>
+                <td>{props.countryProps.actuals.vaccinationsCompleted.toLocaleString()}</td>
               </tr>
               <tr>
                 <th scope="row"># Cases</th>
@@ -116,9 +110,7 @@ const Country = (props: CountryProps) => {
               </tr>
               <tr>
                 <th scope="row"># Positive Tests</th>
-                <td>
-                  {props.countryProps.actuals.positiveTests.toLocaleString()}
-                </td>
+                <td>{props.countryProps.actuals.positiveTests.toLocaleString()}</td>
               </tr>
               <tr>
                 <th scope="row"># Deaths</th>
@@ -170,9 +162,7 @@ const Country = (props: CountryProps) => {
       <Row className="my-3">
         <h1>Daily Update: {props.countryProps.country}</h1>
         <Col sm={12}>
-          <p className="text-muted">
-            Last Update: {props.countryProps.lastUpdatedDate}
-          </p>
+          <p className="text-muted">Last Update: {props.countryProps.lastUpdatedDate}</p>
         </Col>
 
         <Col sm>
@@ -204,8 +194,13 @@ const Country = (props: CountryProps) => {
       </Row>
       <hr />
       <Row className="my-3">
-        <h1>Insert Graph - time series(cases +deaths+ vaccinations vs. time</h1>
+        <h1>US Timeseries </h1>
         {/* < LineGraph /> */}
+        <div className="justify-content-center">
+          <Col sm={12}>
+            <CountryChart timeSeries={props.timeSeries} />
+          </Col>
+        </div>
       </Row>
 
       <hr />
@@ -223,16 +218,10 @@ const Country = (props: CountryProps) => {
                   <Card className="shadow" style={{ width: '18rem' }}>
                     <Card.Title>Heart disease and stroke</Card.Title>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        Total Deaths (2020): 857,226{' '}
-                      </ListGroup.Item>
+                      <ListGroup.Item>Total Deaths (2020): 857,226 </ListGroup.Item>
                       <ListGroup.Item>
                         Deaths/population[%]{' '}
-                        {(
-                          (857226 * 100) /
-                          props.countryProps.population
-                        ).toFixed(2)}
-                        %
+                        {((857226 * 100) / props.countryProps.population).toFixed(2)}%
                       </ListGroup.Item>
                     </ListGroup>
                   </Card>
@@ -243,16 +232,10 @@ const Country = (props: CountryProps) => {
                   <Card className="shadow" style={{ width: '18rem' }}>
                     <Card.Title>Cancer</Card.Title>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        Total Deaths (2020): 602,350{' '}
-                      </ListGroup.Item>
+                      <ListGroup.Item>Total Deaths (2020): 602,350 </ListGroup.Item>
                       <ListGroup.Item>
                         Deaths/population[%]:{' '}
-                        {(
-                          (602350 * 100) /
-                          props.countryProps.population
-                        ).toFixed(2)}
-                        %
+                        {((602350 * 100) / props.countryProps.population).toFixed(2)}%
                       </ListGroup.Item>
                     </ListGroup>
                   </Card>
@@ -263,16 +246,10 @@ const Country = (props: CountryProps) => {
                   <Card className="shadow" style={{ width: '18rem' }}>
                     <Card.Title>Alzheimers</Card.Title>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        Total Deaths (2020): 134,242{' '}
-                      </ListGroup.Item>
+                      <ListGroup.Item>Total Deaths (2020): 134,242 </ListGroup.Item>
                       <ListGroup.Item>
                         Deaths/population[%]:{' '}
-                        {(
-                          (134242 * 100) /
-                          props.countryProps.population
-                        ).toFixed(2)}
-                        %
+                        {((134242 * 100) / props.countryProps.population).toFixed(2)}%
                       </ListGroup.Item>
                     </ListGroup>
                   </Card>
