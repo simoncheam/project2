@@ -14,6 +14,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 // import Table from '../components/Table';
 import { AllStatesSummary } from '../client_types/allstates';
+import Accordion from 'react-bootstrap/Accordion';
 
 interface CountryProps {
   countryProps: CountrySummary;
@@ -91,7 +92,7 @@ const Country = (props: CountryProps) => {
           Last Update: {props.countryProps.lastUpdatedDate}
         </p>
         <Col sm={6}>
-          <h2>Country Stats Overall</h2>
+          <h2>Country Stats </h2>
           <table className="table">
             <thead>
               <tr>
@@ -123,10 +124,10 @@ const Country = (props: CountryProps) => {
                 <th scope="row"># Deaths</th>
                 <td>{props.countryProps.actuals.deaths.toLocaleString()}</td>
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">Source</th>
                 <td>{props.countryProps.url}</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </Col>
@@ -168,7 +169,11 @@ const Country = (props: CountryProps) => {
       <hr />
       <Row className="my-3">
         <h1>Daily Update: {props.countryProps.country}</h1>
-        <Col sm={12}>Last Update: {props.countryProps.lastUpdatedDate}</Col>
+        <Col sm={12}>
+          <p className="text-muted">
+            Last Update: {props.countryProps.lastUpdatedDate}
+          </p>
+        </Col>
 
         <Col sm>
           <Row className="justify-content-center my-3">
@@ -179,8 +184,6 @@ const Country = (props: CountryProps) => {
                   {' '}
                   {props.countryProps.actuals.newCases.toLocaleString()}{' '}
                 </ListGroup.Item>
-                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                                <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
               </ListGroup>
             </Card>
           </Row>
@@ -206,54 +209,87 @@ const Country = (props: CountryProps) => {
       </Row>
 
       <hr />
-      <Row className="my-3">
-        <h1>Comparison data</h1>
-        <Col sm={12}>Leading Causes of Death in US: (date range)</Col>
+      {/* //! Accordion */}
 
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Title>Heart disease and stroke</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>Total Deaths (2020): 857,226 </ListGroup.Item>
-                <ListGroup.Item>
-                  Deaths/population[%]{' '}
-                  {((857226 * 100) / props.countryProps.population).toFixed(2)}%
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Title>Cancer</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>Total Deaths (2020): 602,350 </ListGroup.Item>
-                <ListGroup.Item>
-                  Deaths/population[%]:{' '}
-                  {((602350 * 100) / props.countryProps.population).toFixed(2)}%
-                </ListGroup.Item>
-                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-        <Col sm>
-          <Row className="justify-content-center my-3">
-            <Card className="shadow" style={{ width: '18rem' }}>
-              <Card.Title>Alzheimers</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>Total Deaths (2020): 134,242 </ListGroup.Item>
-                <ListGroup.Item>
-                  Deaths/population[%]:{' '}
-                  {((134242 * 100) / props.countryProps.population).toFixed(2)}%
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Row>
-        </Col>
-      </Row>
+      <Accordion>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h1>Comparison data</h1>
+          </Accordion.Header>
+          <Accordion.Body>
+            <Row className="my-3">
+              <Col sm>
+                <Row className="justify-content-center my-3">
+                  <Card className="shadow" style={{ width: '18rem' }}>
+                    <Card.Title>Heart disease and stroke</Card.Title>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        Total Deaths (2020): 857,226{' '}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        Deaths/population[%]{' '}
+                        {(
+                          (857226 * 100) /
+                          props.countryProps.population
+                        ).toFixed(2)}
+                        %
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card>
+                </Row>
+              </Col>
+              <Col sm>
+                <Row className="justify-content-center my-3">
+                  <Card className="shadow" style={{ width: '18rem' }}>
+                    <Card.Title>Cancer</Card.Title>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        Total Deaths (2020): 602,350{' '}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        Deaths/population[%]:{' '}
+                        {(
+                          (602350 * 100) /
+                          props.countryProps.population
+                        ).toFixed(2)}
+                        %
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card>
+                </Row>
+              </Col>
+              <Col sm>
+                <Row className="justify-content-center my-3">
+                  <Card className="shadow" style={{ width: '18rem' }}>
+                    <Card.Title>Alzheimers</Card.Title>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        Total Deaths (2020): 134,242{' '}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        Deaths/population[%]:{' '}
+                        {(
+                          (134242 * 100) /
+                          props.countryProps.population
+                        ).toFixed(2)}
+                        %
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card>
+                </Row>
+              </Col>
+
+              <Col sm={12}>
+                Leading Causes of Death in US:
+                <a href="https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm">
+                  {' '}
+                  https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
+                </a>
+              </Col>
+            </Row>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </Container>
   );
 };

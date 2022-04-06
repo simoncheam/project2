@@ -43,7 +43,7 @@ const States = (props: StatesProps) => {
           <p className="text-muted">
             Last Update: {props.stateProps[0].lastUpdatedDate}
           </p>
-          <Accordion defaultActiveKey={['0']} alwaysOpen>
+          <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>
                 <h1>Summary: All States </h1>
@@ -57,7 +57,7 @@ const States = (props: StatesProps) => {
                       <th scope="col">Population</th>
                       <th scope="col">Cases</th>
                       <th scope="col">Deaths</th>
-                      <th scope="col">More Details (LINK)</th>
+                      <th scope="col">(LINK to State Detail)</th>
                       {/* <th scope="col">Handle</th> */}
                     </tr>
                   </thead>
@@ -66,12 +66,12 @@ const States = (props: StatesProps) => {
                       <tr>
                         {/* Row 1 */}
                         <th scope="row">
-                          <a href={state.url}>{state.state} </a>
+                          <a>{state.state} </a>
                         </th>
                         <td>{state.population.toLocaleString()}</td>
                         <td>{state.actuals.cases.toLocaleString()}</td>
                         <td>{state.actuals.deaths.toLocaleString()}</td>
-                        <td>State details Link</td>
+                        <td>See More</td>
                       </tr>
                     ))}
                   </tbody>
@@ -83,105 +83,103 @@ const States = (props: StatesProps) => {
       </Row>
 
       <hr />
+      <Row className="my-3">
+        <Col sm={12}>
+          {/* //! Accordion */}
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>
+                <h1>Analysis: All States </h1>
+              </Accordion.Header>
+              <Accordion.Body>
+                <table className="table table-striped">
+                  <thead>
+                    {/* column names */}
 
-      <div>
-        {props.stateProps.map((st) => (
-          <div key={`state-${st.state}`}>
-            <Row className="my-3 ">
-              <Col sm>
-                <Row className="justify-content-center my-3">
-                  <Card
-                    className="shadow background-primary p-3"
-                    style={{ width: '18rem' }}
-                  >
-                    <Card.Title>{st.state}: </Card.Title>
-                    {/* <Card.Title>Card Title</Card.Title> */}
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        Population: {st.population.toLocaleString()}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        source:
-                        <a href={st.url}> {st.url}</a>
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card>
-                </Row>
-              </Col>
+                    <tr>
+                      <th scope="col">State</th>
+                      <th scope="col">Deaths</th>
+                      <th scope="col">Vax completed/population[%]</th>
 
-              <Col sm>
-                <Row className="justify-content-center my-3">
-                  <Card className="shadow p-3" style={{ width: '20rem' }}>
-                    <Card.Title>Actuals</Card.Title>
-                    <ListGroup variant="flush">
-                      {/* // ? dealing with tolocalestring error? */}
-                      <ListGroup.Item>
-                        Vaccinations completed:{' '}
-                        {st.actuals.vaccinationsCompleted}{' '}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Cases: {st.actuals.cases.toLocaleString()}{' '}
-                      </ListGroup.Item>
+                      <th scope="col">Deaths/positive case [%]</th>
+                      <th scope="col">Deaths/population [%]</th>
+                      <th scope="col">Deaths/completed vax [%]</th>
+                      <th scope="col">hospitalization/completed vax [%]</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* //! mapped analysis */}
 
-                      {st.actuals.positiveTests ? (
-                        <ListGroup.Item>
-                          Positive Tests:{' '}
-                          {st.actuals.positiveTests.toLocaleString()}{' '}
-                        </ListGroup.Item>
-                      ) : (
-                        <ListGroup.Item>Positive Tests: N/A </ListGroup.Item>
-                      )}
-
-                      <ListGroup.Item>
-                        Total Deaths: {st.actuals.deaths.toLocaleString()}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card>
-                </Row>
-              </Col>
-
-              <Col sm>
-                <Row className="justify-content-center my-3">
-                  <Card className="shadow p-3" style={{ width: '20rem' }}>
-                    <Card.Title>Analysis</Card.Title>
-                    <ListGroup variant="flush">
-                      {st.actuals.positiveTests ? (
-                        <ListGroup.Item>
-                          Deaths/positive case [%]:{' '}
+                    {statesSummaryData.map((state) => (
+                      <tr>
+                        <th scope="row">
+                          {/* //! state */}
+                          <a>{state.state} </a>
+                        </th>
+                        {/* //! deaths */}
+                        <td> {state.actuals.deaths.toLocaleString()}</td>
+                        {/* //! vax completed /population - what % of pop */}
+                        <td>
+                          {' '}
+                          {state.actuals.vaccinationsCompleted
+                            ? (
+                                (state.actuals.vaccinationsCompleted * 100) /
+                                state.population
+                              ).toFixed(1)
+                            : 'N/A'}
+                        </td>
+                        {/* //! death/positive case */}
+                        <td>
+                          {state.actuals.positiveTests
+                            ? (
+                                (state.actuals.deaths * 100) /
+                                state.actuals?.positiveTests
+                              ).toFixed(3)
+                            : 'N/A'}
+                        </td>
+                        {/* //! death/population */}
+                        <td>
+                          {' '}
                           {(
-                            (st.actuals.deaths * 100) /
-                            st.actuals.positiveTests
-                          ).toFixed(2)}{' '}
-                        </ListGroup.Item>
-                      ) : (
-                        <ListGroup.Item>
-                          Deaths/positive case [%]: Data not available{' '}
-                        </ListGroup.Item>
-                      )}
-
-                      <ListGroup.Item>
-                        Deaths/population [%]:{' '}
-                        {((st.actuals.deaths * 100) / st.population).toFixed(2)}{' '}
-                      </ListGroup.Item>
-                      {/* <ListGroup.Item>Vestibulum at eros</ListGroup.Item> */}
-                    </ListGroup>
-                  </Card>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        ))}
-      </div>
+                            (state.actuals.deaths * 100) /
+                            state.population
+                          ).toFixed(3)}
+                        </td>
+                        {/* //! death/completed vax */}
+                        <td>
+                          {' '}
+                          {state.actuals.vaccinationsCompleted
+                            ? (
+                                (state.actuals.deaths * 100) /
+                                state.actuals?.vaccinationsCompleted
+                              ).toFixed(3)
+                            : 'N/A'}
+                        </td>
+                        {/* //!covid hospital bed usage/completed vax */}
+                        <td>
+                          {' '}
+                          {state.actuals.vaccinationsCompleted
+                            ? (
+                                (state.actuals.hospitalBeds.currentUsageCovid *
+                                  100) /
+                                state.actuals.vaccinationsCompleted
+                              ).toFixed(3)
+                            : 'N/A'}
+                        </td>
+                        <td> </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Col>
+      </Row>
 
       {/* // ! end of map */}
 
       <hr />
-      <Row className="my-3">
-        <h1>Analysis</h1>
-      </Row>
-      <Row className="my-3">
-        <h1>Chart</h1>
-      </Row>
 
       <hr />
     </Container>
