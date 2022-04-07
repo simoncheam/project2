@@ -83,7 +83,7 @@ const App = (props: AppProps) => {
           <Route path="/chart" element={<CountryChart timeSeries={countrySeriesData} />}></Route>
 
           <Route path="/states" element={<States stateProps={statesSummaryData} />}></Route>
-          <Route path="/states/:state_id" element={<StateDetail />}></Route>
+          <Route path="/states/:id" element={<StateDetail />}></Route>
 
           <Route path="/counties" element={<Counties />}></Route>
           <Route path="/county/:county_id" element={<CountyDetail />}></Route>

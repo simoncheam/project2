@@ -18,8 +18,7 @@ interface StatesProps {
 }
 
 const States = (props: StatesProps) => {
-  const [statesSummaryData, setStatesSummaryData] =
-    useState<AllStatesSummary[]>();
+  const [statesSummaryData, setStatesSummaryData] = useState<AllStatesSummary[]>();
   // const [statesActualData, setStatesActualData] = useState<Actuals>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -40,9 +39,7 @@ const States = (props: StatesProps) => {
       <Row className="my-3">
         <p className="display-1 justify-content-center">COVID-19 Tracker</p>
         <Col sm={12}>
-          <p className="text-muted">
-            Last Update: {props.stateProps[0].lastUpdatedDate}
-          </p>
+          <p className="text-muted">Last Update: {props.stateProps[0].lastUpdatedDate}</p>
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>
@@ -71,7 +68,11 @@ const States = (props: StatesProps) => {
                         <td>{state.population.toLocaleString()}</td>
                         <td>{state.actuals.cases.toLocaleString()}</td>
                         <td>{state.actuals.deaths.toLocaleString()}</td>
-                        <td>See More</td>
+                        <td>
+                          <Link to={`/states/${state.state}`} className="row btn btn-warning ">
+                            See More
+                          </Link>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -131,20 +132,13 @@ const States = (props: StatesProps) => {
                         {/* //! death/positive case */}
                         <td>
                           {state.actuals.positiveTests
-                            ? (
-                                (state.actuals.deaths * 100) /
-                                state.actuals?.positiveTests
-                              ).toFixed(3)
+                            ? ((state.actuals.deaths * 100) / state.actuals?.positiveTests).toFixed(
+                                3
+                              )
                             : 'N/A'}
                         </td>
                         {/* //! death/population */}
-                        <td>
-                          {' '}
-                          {(
-                            (state.actuals.deaths * 100) /
-                            state.population
-                          ).toFixed(3)}
-                        </td>
+                        <td> {((state.actuals.deaths * 100) / state.population).toFixed(3)}</td>
                         {/* //! death/completed vax */}
                         <td>
                           {' '}
@@ -160,8 +154,7 @@ const States = (props: StatesProps) => {
                           {' '}
                           {state.actuals.vaccinationsCompleted
                             ? (
-                                (state.actuals.hospitalBeds.currentUsageCovid *
-                                  100) /
+                                (state.actuals.hospitalBeds.currentUsageCovid * 100) /
                                 state.actuals.vaccinationsCompleted
                               ).toFixed(3)
                             : 'N/A'}
