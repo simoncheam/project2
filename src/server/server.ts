@@ -4,8 +4,7 @@ import routes from './routes';
 
 const app = express();
 
-//import { configurePassport } from '../server/middleware/passport-strats.mw'
-//configurePassport(app);
+
 
 app.use(express.json());
 app.use(express.static('public'));

@@ -4,17 +4,15 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AllStatesSeries, AllStatesSummary } from './client_types/allstates';
 import { Actuals, CountrySeries, CountrySummary } from './client_types/country';
 import Navbar from './components/Navbar';
-import Counties from './views/Counties';
+//import Counties from './views/Counties';
 import Country from './views/Country';
 import CountryChart from './views/CountryChart';
-import CountyDetail from './views/CountyDetail';
-import Home from './views/Home';
+//import CountyDetail from './views/CountyDetail';
 import StateDetail from './views/StateDetail';
 import States from './views/States';
 const axios = require('axios').default;
 
 const App = (props: AppProps) => {
-  // ! state: countrysum, countryActual, state summary
   const [countrySummaryData, setCountrySummaryData] = useState<CountrySummary>();
   const [countrySeriesData, setCountrySeriesData] = useState<CountrySeries>(null);
   const [countryActualData, setCountryActualData] = useState<Actuals[]>([]);
@@ -22,14 +20,13 @@ const App = (props: AppProps) => {
   const [statesSeriesData, setStatesSeriesData] = useState<AllStatesSeries>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // ! create useEffect - multi-state function
   useEffect(() => {
     //API stuff
 
     // !country - summary
     axios
       .get('/api/country/summary')
-      .then((res) => {
+      .then((res: any) => {
         setCountrySummaryData(res.data);
         setCountryActualData(res.data.actuals);
       })
@@ -38,14 +35,14 @@ const App = (props: AppProps) => {
     //   !country series
     axios
       .get('/api/country/timeseries')
-      .then((res) => {
+      .then((res: any) => {
         setCountrySeriesData(res.data);
       })
       .catch((e: any) => alert(e));
     // ! state - summary
     axios
       .get('/api/states/summary')
-      .then((res) => {
+      .then((res: any) => {
         setStatesSummaryData(res.data);
       })
       .catch((e: any) => alert(e));
@@ -53,23 +50,17 @@ const App = (props: AppProps) => {
     // !state - series
     axios
       .get('/api/states/series')
-      .then((res) => {
+      .then((res: any) => {
         setStatesSeriesData(res.data);
       })
       .catch((e: any) => alert(e));
-
-    // states - summary and series
   }, []);
 
   useEffect(() => {
     if (countrySummaryData && statesSummaryData.length) {
       setIsLoaded(true);
     }
-
-    //API stuff
   }, [countrySummaryData, statesSummaryData]);
-
-  //if (!isLoaded) return <> Loading </>;
 
   return (
     <BrowserRouter>
@@ -85,8 +76,8 @@ const App = (props: AppProps) => {
           <Route path="/states" element={<States stateProps={statesSummaryData} />}></Route>
           <Route path="/states/:id" element={<StateDetail />}></Route>
 
-          <Route path="/counties" element={<Counties />}></Route>
-          <Route path="/county/:county_id" element={<CountyDetail />}></Route>
+          {/* <Route path="/counties" element={<Counties />}></Route>
+          <Route path="/county/:county_id" element={<CountyDetail />}></Route> */}
         </Routes>
       ) : (
         <h1> Loading...</h1>

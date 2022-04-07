@@ -23,18 +23,18 @@ const StateDetail = () => {
     // /singleseries/:state_id'
     axios
       .get(`/api/states/singleseries/${state_id}`)
-      .then((res) => {
+      .then((res: any) => {
         setSingleStateSeries(res.data);
         // setIsLoaded(true);
       })
-      .catch((e) => alert(e));
+      .catch((e: string) => alert(e));
     axios
       .get(`/api/states/singlesummary/${state_id}`)
-      .then((res) => {
+      .then((res: any) => {
         setSingleStateSummary(res.data);
         setIsLoaded(true);
       })
-      .catch((e) => alert(e));
+      .catch((e: string) => alert(e));
   }, []);
 
   if (!isLoaded || !singleStateSeries || !singleStateSummary) {
@@ -78,7 +78,9 @@ const StateDetail = () => {
                 </tr>
                 <tr>
                   <th scope="row">Source</th>
-                  <td>{singleStateSummary.url}</td>
+                  <td>
+                    <a href={`${singleStateSummary.url}`}>{singleStateSummary.url}</a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -108,7 +110,7 @@ const StateDetail = () => {
                     {(
                       (singleStateSummary.actuals.deaths * 100) /
                       singleStateSummary.population
-                    ).toFixed(3)}
+                    ).toFixed(2)}
                     %
                   </td>
                 </tr>

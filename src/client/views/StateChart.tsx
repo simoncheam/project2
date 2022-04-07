@@ -105,7 +105,6 @@ const StateChart = (data: ChartProps) => {
   return (
     <div className="container">
       <div className="row">
-        {/* <h3 className="text-muted">State Detail Chart</h3> */}
         <h3 className="text-muted">
           Deaths, Vaccinations, Positive Tests, Hospitalized Covid Patients vs. time
         </h3>

@@ -7,27 +7,19 @@ import { CountrySummary, Actuals, CountrySeries } from '../client_types/country'
 const axios = require('axios').default;
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Form from 'react-bootstrap/Form';
-// import Table from '../components/Table';
-import { AllStatesSummary } from '../client_types/allstates';
 import Accordion from 'react-bootstrap/Accordion';
 import CountryChart from './CountryChart';
 
 interface CountryProps {
   countryProps: CountrySummary;
   timeSeries: CountrySeries;
-  //? Q: if we want to pass in another prop (ie stateProps) into the Country view element, could we include it within this same CountryProps Interface?
-  // ie. stateProps: StatesSummary
 }
 
 const Country = (props: CountryProps) => {
   // ! want tableData for sorted States by cases
-  const [tableData, setTableData] = useState([]);
 
   const loc = useLocation();
   const nav = useNavigate();
-
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   if (!props.countryProps) return <> Loading </>;
 
@@ -66,10 +58,6 @@ const Country = (props: CountryProps) => {
                 <th scope="row"># Deaths</th>
                 <td>{props.countryProps.actuals.deaths.toLocaleString()}</td>
               </tr>
-              {/* <tr>
-                <th scope="row">Source</th>
-                <td>{props.countryProps.url}</td>
-              </tr> */}
             </tbody>
           </table>
         </Col>

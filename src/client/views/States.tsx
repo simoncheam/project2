@@ -5,10 +5,7 @@ import Col from 'react-bootstrap/Col';
 import { Navigate, useLocation, useNavigate } from 'react-router';
 import { AllStatesSummary, Actuals } from '../client_types/allstates';
 const axios = require('axios').default;
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Form from 'react-bootstrap/Form';
-import { StatsModuleIssuer } from 'webpack';
+
 import { Link } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 
@@ -19,7 +16,6 @@ interface StatesProps {
 
 const States = (props: StatesProps) => {
   const [statesSummaryData, setStatesSummaryData] = useState<AllStatesSummary[]>();
-  // const [statesActualData, setStatesActualData] = useState<Actuals>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const loc = useLocation();
@@ -54,14 +50,12 @@ const States = (props: StatesProps) => {
                       <th scope="col">Population</th>
                       <th scope="col">Cases</th>
                       <th scope="col">Deaths</th>
-                      <th scope="col">Link to Detailed State View)</th>
-                      {/* <th scope="col">Handle</th> */}
+                      <th scope="col">State Details</th>
                     </tr>
                   </thead>
                   <tbody>
                     {statesSummaryData.map((state) => (
                       <tr>
-                        {/* Row 1 */}
                         <th scope="row">
                           <a>{state.state} </a>
                         </th>
@@ -97,22 +91,19 @@ const States = (props: StatesProps) => {
                   <thead>
                     {/* column names */}
 
-                    <tr>
+                    <tr className="text-left">
                       <th scope="col">State</th>
                       <th scope="col">Deaths</th>
-                      <th scope="col">Vax completed/population[%]</th>
-
-                      <th scope="col">Deaths/positive case [%]</th>
-                      <th scope="col">Deaths/population [%]</th>
-                      <th scope="col">Deaths/completed vax [%]</th>
-                      <th scope="col">hospitalization/completed vax [%]</th>
+                      <th scope="col">% population w/ completed vaccination status</th>
+                      <th scope="col">% positive cases who have died</th>
+                      <th scope="col">% population who have died</th>
+                      <th scope="col">Deaths/completed vaccination [%]</th>
                     </tr>
                   </thead>
                   <tbody>
                     {/* //! mapped analysis */}
-
                     {statesSummaryData.map((state) => (
-                      <tr>
+                      <tr className="text-center">
                         <th scope="row">
                           {/* //! state */}
                           <a>{state.state} </a>
@@ -128,17 +119,19 @@ const States = (props: StatesProps) => {
                                 state.population
                               ).toFixed(1)
                             : 'N/A'}
+                          %
                         </td>
                         {/* //! death/positive case */}
                         <td>
                           {state.actuals.positiveTests
                             ? ((state.actuals.deaths * 100) / state.actuals?.positiveTests).toFixed(
-                                3
+                                2
                               )
                             : 'N/A'}
+                          %
                         </td>
                         {/* //! death/population */}
-                        <td> {((state.actuals.deaths * 100) / state.population).toFixed(3)}</td>
+                        <td> {((state.actuals.deaths * 100) / state.population).toFixed(2)}%</td>
                         {/* //! death/completed vax */}
                         <td>
                           {' '}
@@ -149,16 +142,7 @@ const States = (props: StatesProps) => {
                               ).toFixed(3)
                             : 'N/A'}
                         </td>
-                        {/* //!covid hospital bed usage/completed vax */}
-                        <td>
-                          {' '}
-                          {state.actuals.vaccinationsCompleted
-                            ? (
-                                (state.actuals.hospitalBeds.currentUsageCovid * 100) /
-                                state.actuals.vaccinationsCompleted
-                              ).toFixed(3)
-                            : 'N/A'}
-                        </td>
+
                         <td> </td>
                       </tr>
                     ))}
@@ -169,12 +153,6 @@ const States = (props: StatesProps) => {
           </Accordion>
         </Col>
       </Row>
-
-      {/* // ! end of map */}
-
-      <hr />
-
-      <hr />
     </Container>
   );
 };

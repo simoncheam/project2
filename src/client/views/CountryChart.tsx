@@ -87,15 +87,6 @@ const CountryChart = (data: ChartProps) => {
     // console.log(dataset);
   }, [data]);
 
-  //! create useEffect
-  // ! create labels(dates), deaths via map
-
-  //* create dataset
-
-  // if (!dataset.datasets.length) {
-  //   return <> Loading...</>;
-  // }
-
   return (
     <div className="container">
       <div className="row">
