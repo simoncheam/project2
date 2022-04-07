@@ -54,7 +54,7 @@ const States = (props: StatesProps) => {
                       <th scope="col">Population</th>
                       <th scope="col">Cases</th>
                       <th scope="col">Deaths</th>
-                      <th scope="col">(LINK to State Detail)</th>
+                      <th scope="col">Link to Detailed State View)</th>
                       {/* <th scope="col">Handle</th> */}
                     </tr>
                   </thead>

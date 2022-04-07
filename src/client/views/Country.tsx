@@ -29,56 +29,6 @@ const Country = (props: CountryProps) => {
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // ! Fetch country timeseries
-  //   useEffect(() => {
-  //     //API stuff
-  //     const fetchData = async () => {
-  //       await axios
-  //         .get('/api/country/timeseries')
-  //         .then((res) => {
-  //           return res;
-  //         })
-  //         .then((data: any) => {
-  //           // let chartData = buildChartData(data.data, casesType);
-  //           // setData(chartData);
-  //           setCountrySeriesData(data.data.actualsTimeseries);
-  //           //console.log(data.data.actualsTimeseries);
-  //           // buildChart(chartData);
-  //         })
-  //         .catch((e: any) => alert(e));
-  //     };
-
-  //     fetchData();
-  //   }, []);
-
-  // ! Fetch states summary date
-  //   useEffect(() => {
-  //     const getStatesData = async () => {
-  //       await axios
-  //         .get('/api/states/summary')
-  //         .then(({ data }) => {
-  //           const states = data.map((state) => ({
-  //             stateID: state.state,
-  //             cases: state.actuals.cases,
-  //           }));
-  //           console.log(states);
-  //           //let sortedData = sortData(data)
-
-  //           setStatesSummaryData(data);
-  //           setStates(states);
-  //           console.log(states);
-  //           setIsLoaded(true);
-  //           //  console.log(data.data);
-  //           // setTableData(res.);
-  //         })
-
-  //         .catch((e: any) => alert(e));
-  //     };
-  //     getStatesData();
-
-  //     // get state summary
-  //   }, [isLoaded]);
-
   if (!props.countryProps) return <> Loading </>;
 
   return (
@@ -134,21 +84,23 @@ const Country = (props: CountryProps) => {
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Deaths/positive case [%]</th>
+                <th scope="row">% positive cases who have died</th>
                 <td>
                   {(
                     (props.countryProps.actuals.deaths * 100) /
                     props.countryProps.actuals.positiveTests
-                  ).toFixed(2)}{' '}
+                  ).toFixed(2)}
+                  %
                 </td>
               </tr>
               <tr>
-                <th scope="row">Deaths/population [%]</th>
+                <th scope="row">% population who have died</th>
                 <td>
                   {(
                     (props.countryProps.actuals.deaths * 100) /
                     props.countryProps.population
                   ).toFixed(3)}
+                  %
                 </td>
               </tr>
             </tbody>
@@ -184,8 +136,7 @@ const Country = (props: CountryProps) => {
               <Card.Title>New Deaths</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  {' '}
-                  {props.countryProps.actuals.newDeaths.toLocaleString()}{' '}
+                  {props.countryProps.actuals.newDeaths.toLocaleString()}
                 </ListGroup.Item>
               </ListGroup>
             </Card>
@@ -195,7 +146,6 @@ const Country = (props: CountryProps) => {
       <hr />
       <Row className="my-3">
         <h1>US Timeseries </h1>
-        {/* < LineGraph /> */}
         <div className="justify-content-center">
           <Col sm={12}>
             <CountryChart timeSeries={props.timeSeries} />
