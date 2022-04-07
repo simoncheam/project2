@@ -55,7 +55,7 @@ const States = (props: StatesProps) => {
                   </thead>
                   <tbody>
                     {statesSummaryData.map((state) => (
-                      <tr>
+                      <tr key={`state-${state.state}`}  >
                         <th scope="row">
                           <a>{state.state} </a>
                         </th>
@@ -103,7 +103,7 @@ const States = (props: StatesProps) => {
                   <tbody>
                     {/* //! mapped analysis */}
                     {statesSummaryData.map((state) => (
-                      <tr className="text-center">
+                      <tr className="text-center" key={`state-summary-${state.state}`}>
                         <th scope="row">
                           {/* //! state */}
                           <a>{state.state} </a>
