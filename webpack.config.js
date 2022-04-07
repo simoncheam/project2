@@ -18,10 +18,10 @@ const serverConfig = {
   },
   resolve: {
     extensions: [".ts", ".js"],
-    fallback: {
-      path: require.resolve("path-browserify"),
-      os: require.resolve("os-browserify/browser"),
-    },
+    // fallback: {
+    //   path: require.resolve("path-browserify"),
+    //   os: require.resolve("os-browserify/browser"),
+    // },
   },
   output: {
     filename: "server.js",
