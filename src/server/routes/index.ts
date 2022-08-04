@@ -1,8 +1,8 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import apiRouter from './api'
+import apiRouter from './api';
 
-const router = Router()
+const router = Router();
 
 router.use('/api', apiRouter);
 

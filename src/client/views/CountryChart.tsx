@@ -6,6 +6,16 @@ interface ChartProps {
   timeSeries: CountrySeries;
 }
 
+interface Idataset {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: (number | null | undefined | any)[];
+    borderColor: string;
+    backgroundColor: string;
+  }[];
+}
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -40,21 +50,21 @@ const CountryChart = (data: ChartProps) => {
       borderColor: string;
       backgroundColor: string;
     }[];
-  }>(null);
+  }>(null!);
 
   useEffect(() => {
-    //API stuff
-    const labels = data?.timeSeries?.actualsTimeseries.map((ats) => ats.date);
-    const deaths = data?.timeSeries?.actualsTimeseries.map((ats) => ats.deaths);
-    const posTests = data?.timeSeries?.actualsTimeseries.map((ats) => ats.positiveTests / 1000);
-    const hospitalizedCvdPts = data?.timeSeries?.actualsTimeseries.map(
+    const labels = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.date);
+    const deaths = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.deaths);
+    const posTests = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.positiveTests! / 1000);
+    const hospitalizedCvdPts = data?.timeSeries?.actualsTimeseries!.map(
       (ats) => ats.hospitalBeds.currentUsageCovid
     );
+    //@ts-ignore
     const vaxCompleted = data?.timeSeries?.actualsTimeseries.map(
-      (ats) => ats.vaccinationsCompleted / 1000
+      (ats) => ats.vaccinationsCompleted! / 1000
     );
 
-    const dataset = {
+    const dataset: Idataset = {
       labels, //! X- axis
       datasets: [
         {

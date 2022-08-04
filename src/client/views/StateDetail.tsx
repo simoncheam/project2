@@ -62,11 +62,15 @@ const StateDetail = () => {
                 </tr>
                 <tr>
                   <th scope="row">Vaccinations Completed</th>
-                  <td>{singleStateSummary.actuals.vaccinationsCompleted.toLocaleString()}</td>
+                  <td>
+                    {singleStateSummary.actuals.vaccinationsCompleted
+                      ? singleStateSummary.actuals.vaccinationsCompleted?.toLocaleString()
+                      : 'N/A'}
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row"># Cases</th>
-                  <td>{singleStateSummary.actuals.cases.toLocaleString()}</td>
+                  <td>{singleStateSummary.actuals.cases?.toLocaleString()}</td>
                 </tr>
                 <tr>
                   <th scope="row"># Positive Tests</th>

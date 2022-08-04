@@ -27,7 +27,7 @@ const States = (props: StatesProps) => {
     setIsLoaded(true);
   }, []);
 
-  if (!isLoaded || !statesSummaryData.length) return <> Loading </>;
+  if (!isLoaded || !statesSummaryData!.length) return <> Loading </>;
 
   return (
     <Container>
@@ -54,8 +54,8 @@ const States = (props: StatesProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {statesSummaryData.map((state) => (
-                      <tr key={`state-${state.state}`}  >
+                    {statesSummaryData!.map((state) => (
+                      <tr key={`state-${state.state}`}>
                         <th scope="row">
                           <a>{state.state} </a>
                         </th>
@@ -102,7 +102,7 @@ const States = (props: StatesProps) => {
                   </thead>
                   <tbody>
                     {/* //! mapped analysis */}
-                    {statesSummaryData.map((state) => (
+                    {statesSummaryData!.map((state) => (
                       <tr className="text-center" key={`state-summary-${state.state}`}>
                         <th scope="row">
                           {/* //! state */}

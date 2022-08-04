@@ -21,4 +21,8 @@ $theme-colors: (
 	// add any additional color below
 );
 
+$body-font-family: 'Raleway', sans-serif;
+$header-font-family: 'Raleway', sans-serif;
+$paragraph-font-family: 'Raleway', sans-serif;
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

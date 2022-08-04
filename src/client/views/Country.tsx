@@ -16,8 +16,6 @@ interface CountryProps {
 }
 
 const Country = (props: CountryProps) => {
-  // ! want tableData for sorted States by cases
-
   const loc = useLocation();
   const nav = useNavigate();
 

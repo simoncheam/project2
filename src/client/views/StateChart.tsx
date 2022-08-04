@@ -41,29 +41,39 @@ const StateChart = (data: ChartProps) => {
       borderColor: string;
       backgroundColor: string;
     }[];
-  }>(null);
+  }>(null!);
 
   useEffect(() => {
     //! labels - dates, deaths, posTests, hospCvd, vaxComplete
-    const labels = data?.timeSeries?.actualsTimeseries.map((ats) => ats.date);
-    const deaths = data?.timeSeries?.actualsTimeseries.map((ats) => ats.deaths);
-    const posTests = data?.timeSeries?.actualsTimeseries.map((ats) => ats.positiveTests / 1000);
+    const labels = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.date);
+    const deaths = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.deaths);
+    const posTests = data?.timeSeries?.actualsTimeseries!.map((ats) => ats.positiveTests! / 1000);
 
-    const hospitalizedCvdPts = data?.timeSeries?.actualsTimeseries.map(
+    const hospitalizedCvdPts = data?.timeSeries?.actualsTimeseries!.map(
       (ats) => ats.hospitalBeds.currentUsageCovid
     );
 
-    const vaxCompleted = data?.timeSeries?.actualsTimeseries.map(
-      (ats) => ats.vaccinationsCompleted / 1000
+    const vaxCompleted = data?.timeSeries?.actualsTimeseries!.map(
+      (ats) => ats.vaccinationsCompleted! / 1000
     );
 
     // ! add weekly admissions
-    const weeklyCovidAdmissions = data?.timeSeries?.actualsTimeseries.map(
+    const weeklyCovidAdmissions = data?.timeSeries?.actualsTimeseries!.map(
       (ats) => ats.hospitalBeds.weeklyCovidAdmissions
     );
 
+    interface Idataset {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: any[];
+        borderColor: string;
+        backgroundColor: string;
+      }[];
+    }
+
     //! datasets
-    const dataset = {
+    const dataset: Idataset = {
       labels, //! X- axis
       datasets: [
         {

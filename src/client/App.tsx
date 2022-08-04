@@ -4,25 +4,21 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AllStatesSeries, AllStatesSummary } from './client_types/allstates';
 import { Actuals, CountrySeries, CountrySummary } from './client_types/country';
 import Navbar from './components/Navbar';
-//import Counties from './views/Counties';
 import Country from './views/Country';
 import CountryChart from './views/CountryChart';
-//import CountyDetail from './views/CountyDetail';
 import StateDetail from './views/StateDetail';
 import States from './views/States';
 const axios = require('axios').default;
 
 const App = (props: AppProps) => {
   const [countrySummaryData, setCountrySummaryData] = useState<CountrySummary>();
-  const [countrySeriesData, setCountrySeriesData] = useState<CountrySeries>(null);
+  const [countrySeriesData, setCountrySeriesData] = useState<CountrySeries>(null!);
   const [countryActualData, setCountryActualData] = useState<Actuals[]>([]);
   const [statesSummaryData, setStatesSummaryData] = useState<AllStatesSummary[]>([]);
-  const [statesSeriesData, setStatesSeriesData] = useState<AllStatesSeries>(null);
+  const [statesSeriesData, setStatesSeriesData] = useState<AllStatesSeries>(null!);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    //API stuff
-
     // !country - summary
     axios
       .get('/api/country/summary')
@@ -31,7 +27,6 @@ const App = (props: AppProps) => {
         setCountryActualData(res.data.actuals);
       })
       .catch((e: any) => alert(e));
-
     //   !country series
     axios
       .get('/api/country/timeseries')
@@ -69,15 +64,12 @@ const App = (props: AppProps) => {
         <Routes>
           <Route
             path="/"
-            element={<Country countryProps={countrySummaryData} timeSeries={countrySeriesData} />}
+            element={<Country countryProps={countrySummaryData!} timeSeries={countrySeriesData} />}
           ></Route>
           <Route path="/chart" element={<CountryChart timeSeries={countrySeriesData} />}></Route>
 
           <Route path="/states" element={<States stateProps={statesSummaryData} />}></Route>
           <Route path="/states/:id" element={<StateDetail />}></Route>
-
-          {/* <Route path="/counties" element={<Counties />}></Route>
-          <Route path="/county/:county_id" element={<CountyDetail />}></Route> */}
         </Routes>
       ) : (
         <h1> Loading...</h1>
